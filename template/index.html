@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Delaney Solubility Predictor</title>
+    <style>
+      :root { color-scheme: light; }
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        background: #0b1220;
+        color: #e8eefc;
+      }
+      .wrap { max-width: 880px; margin: 0 auto; padding: 40px 18px; }
+      .card {
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.12);
+        border-radius: 14px;
+        padding: 22px;
+        backdrop-filter: blur(10px);
+      }
+      h1 { margin: 0 0 6px; font-size: 24px; }
+      p.sub { margin: 0 0 18px; color: #b9c7f5; }
+      form { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+      .field { display: flex; flex-direction: column; gap: 6px; }
+      label { font-size: 13px; color: #cdd8ff; }
+      input {
+        padding: 10px 12px;
+        border-radius: 10px;
+        border: 1px solid rgba(255,255,255,0.14);
+        background: rgba(255,255,255,0.08);
+        color: #e8eefc;
+        outline: none;
+      }
+      input:focus { border-color: rgba(124, 92, 255, 0.75); box-shadow: 0 0 0 3px rgba(124,92,255,0.20); }
+      .actions { grid-column: 1 / -1; display: flex; gap: 10px; align-items: center; margin-top: 6px; }
+      button {
+        padding: 10px 14px;
+        border: 0;
+        border-radius: 10px;
+        cursor: pointer;
+        background: linear-gradient(135deg, #7c5cff, #3aa0ff);
+        color: #08102a;
+        font-weight: 700;
+      }
+      .result {
+        margin-top: 16px;
+        padding: 12px 14px;
+        border-radius: 12px;
+        border: 1px solid rgba(255,255,255,0.12);
+        background: rgba(0,0,0,0.22);
+      }
+      .hint { color: #b9c7f5; font-size: 13px; }
+      @media (max-width: 720px) {
+        form { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="card">
+        <h1>Delaney Solubility Predictor</h1>
+        <p class="sub">Enter molecular descriptors and get the predicted solubility.</p>
+
+        <form action="/predict" method="POST" autocomplete="off">
+          <div class="field">
+            <label for="MolLogP">MolLogP</label>
+            <input id="MolLogP" name="MolLogP" type="number" step="any" required />
+          </div>
+
+          <div class="field">
+            <label for="MolWt">MolWt</label>
+            <input id="MolWt" name="MolWt" type="number" step="any" required />
+          </div>
+
+          <div class="field">
+            <label for="NumRotatableBonds">NumRotatableBonds</label>
+            <input id="NumRotatableBonds" name="NumRotatableBonds" type="number" step="1" min="0" required />
+          </div>
+
+          <div class="field">
+            <label for="AromaticProportion">AromaticProportion</label>
+            <input id="AromaticProportion" name="AromaticProportion" type="number" step="any" min="0" required />
+          </div>
+
+          <div class="actions">
+            <button type="submit">Predict</button>
+            <span class="hint">Model + preprocessor are loaded from `artifacts/`.</span>
+          </div>
+        </form>
+
+        {% if results is not none %}
+          <div class="result">
+            <strong>Result:</strong> {{ results }}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </body>
+</html>
