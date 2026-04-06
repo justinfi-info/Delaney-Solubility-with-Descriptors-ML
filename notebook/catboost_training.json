@@ -1,0 +1,38 @@
+{
+  "project": "Delaney-Solubility-with-Descriptors-ML",
+  "dataset": {
+    "path": "notebook/data/delaney_solubility_with_descriptors.csv",
+    "target": "logS",
+    "features": [
+      "MolLogP",
+      "MolWt",
+      "NumRotatableBonds",
+      "AromaticProportion"
+    ],
+    "train_test_split": {
+      "test_size": 0.2,
+      "random_state": 42,
+      "shuffle": true
+    }
+  },
+  "model": {
+    "type": "CatBoostRegressor",
+    "params": {
+      "loss_function": "RMSE",
+      "eval_metric": "R2",
+      "iterations": 2000,
+      "learning_rate": 0.05,
+      "depth": 8,
+      "l2_leaf_reg": 3.0,
+      "random_seed": 42,
+      "verbose": 100,
+      "early_stopping_rounds": 100,
+      "task_type": "CPU"
+    }
+  },
+  "outputs": {
+    "artifacts_dir": "artifacts",
+    "model_file": "artifacts/model.pkl",
+    "preprocessor_file": "artifacts/preprocessor.pkl"
+  }
+}
